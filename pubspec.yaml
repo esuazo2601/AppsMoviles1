@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    motion_toast: ^2.7.9
+  motion_toast: ^2.7.9
 
 
   # The following adds the Cupertino Icons font to your application.
