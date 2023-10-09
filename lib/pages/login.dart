@@ -17,13 +17,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text("Acceder"),
-          backgroundColor: Colors.grey,
-        ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 60),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
