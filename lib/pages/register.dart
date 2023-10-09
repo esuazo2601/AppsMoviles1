@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
@@ -14,6 +15,33 @@ class _RegisterState extends State<Register> {
   final _passwordController = TextEditingController();
   final _rePasswordController = TextEditingController();
   final _nombre = TextEditingController();
+
+  bool areFieldsFilled() {
+    return _userController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _rePasswordController.text.isNotEmpty &&
+        _nombre.text.isNotEmpty;
+  }
+
+  bool passMatch() {
+    return _passwordController.text == _rePasswordController.text;
+  }
+
+  Future<bool> userExist() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(_userController.text);
+  }
+
+  Future<void> saveUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = _userController.text;
+    final password = _passwordController.text;
+    final nombre = _nombre.text;
+
+    // Guarda los datos en SharedPreferences
+    await prefs.setString(
+        username, '{"password": "$password", "nombre": "$nombre"}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +78,7 @@ class _RegisterState extends State<Register> {
                       TextFormField(
                         decoration:
                             const InputDecoration(border: OutlineInputBorder()),
+                        controller: _userController,
                       ),
                       const SizedBox(
                         height: 20,
@@ -59,14 +88,17 @@ class _RegisterState extends State<Register> {
                         obscureText: true,
                         decoration:
                             const InputDecoration(border: OutlineInputBorder()),
+                        controller: _passwordController,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       const Text("Repetir Contraseña"),
                       TextFormField(
+                        obscureText: true,
                         decoration:
                             const InputDecoration(border: OutlineInputBorder()),
+                        controller: _rePasswordController,
                       ),
                       const SizedBox(
                         height: 20,
@@ -75,6 +107,7 @@ class _RegisterState extends State<Register> {
                       TextFormField(
                         decoration:
                             const InputDecoration(border: OutlineInputBorder()),
+                        controller: _nombre,
                       ),
                     ],
                   ),
@@ -83,7 +116,36 @@ class _RegisterState extends State<Register> {
                   height: 10,
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      if (!areFieldsFilled()) {
+                        MotionToast.error(
+                                title: const Text("Error"),
+                                description: const Text(
+                                    "Debe rellenar todos los campos"))
+                            .show(context);
+                        return;
+                      }
+                      if (!passMatch()) {
+                        MotionToast.error(
+                                title: const Text("Error"),
+                                description:
+                                    const Text("Las contraseñas no coinciden"))
+                            .show(context);
+                        return;
+                      }
+                      if (await userExist()) {
+                        MotionToast.error(
+                                title: const Text("Error"),
+                                description: const Text("El usuario ya existe"))
+                            .show(context);
+                        return;
+                      }
+                      await saveUserData();
+                      MotionToast.success(
+                              title: const Text("Éxito"),
+                              description:
+                                  const Text("Usuario creado con éxito"))
+                          .show(context);
                       // if (_userController.text == "dido" &&
                       //     _passwordController.text == "123") {
                       //   print("Loguear");
