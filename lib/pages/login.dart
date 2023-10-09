@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto1/pages/register.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key});
@@ -15,14 +16,15 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Registrarse"),
+        title: const Text("Login"),
         backgroundColor: Colors.grey,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
+          Center(child: Image.asset('assets/escudo.gif')),
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(
@@ -57,7 +59,20 @@ class _LoginState extends State<Login> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: () {}, child: const Text("ACCEDER")),
+            ElevatedButton(
+                onPressed: () {
+                  if (_userController.text == "dido" &&
+                      _passwordController.text == "123") {
+                    print("Loguear");
+                  } else {
+                    MotionToast.error(
+                            title: const Text("Error"),
+                            description:
+                                const Text("Usuario o contraseña incorrectos"))
+                        .show(context);
+                  }
+                },
+                child: const Text("ACCEDER")),
           ],
         ),
       ),
