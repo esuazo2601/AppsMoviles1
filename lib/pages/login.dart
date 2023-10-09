@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto1/pages/ToDo.dart';
 import 'package:proyecto1/pages/register.dart';
 import 'package:motion_toast/motion_toast.dart';
 
@@ -66,6 +67,10 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       if (_userController.text == "dido" &&
                           _passwordController.text == "123") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TodO()));
                         print("Loguear");
                       } else {
                         MotionToast.error(
