@@ -21,13 +21,12 @@ class _TodOState extends State<TodO> {
         body: Column(
           children: [
             Task(
-              name: 'Si',
+              name: 'so',
               description: 'puede ser',
               fecha_inicio: DateTime.parse('2024-10-12'),
               fecha_fin: DateTime.parse('2024-10-12'),
               codear: true,
               comer: true,
-              flojear: true,
               comprar: true,
             ),
           ],

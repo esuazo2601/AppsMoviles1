@@ -39,17 +39,17 @@ class Task extends StatelessWidget {
   }
 
   // Constructor que recibe los parámetros nombre, descripción y fechas
-  const Task(
-      {Key? key,
-      required this.name,
-      required this.description,
-      required this.fecha_inicio,
-      required this.fecha_fin,
-      this.codear,
-      this.flojear,
-      this.comer,
-      this.comprar})
-      : super(key: key);
+  const Task({
+    Key? key,
+    required this.name,
+    required this.description,
+    required this.fecha_inicio,
+    required this.fecha_fin,
+    this.codear,
+    this.flojear,
+    this.comer,
+    this.comprar,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +70,14 @@ class Task extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nombre: $name'),
-                  Text('Descripción: $description'),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Nombre: $name'),
+                    Text('Descripción: $description'),
+                  ],
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -84,10 +86,13 @@ class Task extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(fechaTexto),
+                  SizedBox(height: 8),
                   Container(
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: Colors.amber,
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: IconButton(
                       onPressed: () {
@@ -98,37 +103,34 @@ class Task extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
-          Container(
-            //ESTE CONTAINER DEBE IR AL FONDO
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                if (codear == true)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: category('Codear'),
-                  ),
-                if (flojear == true)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: category('Flojear'),
-                  ),
-                if (comer == true)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: category('Comer'),
-                  ),
-                if (comprar == true)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: category('Comprar'),
-                  ),
-              ],
-            ),
+          // Utiliza un Expanded aquí para que la fila de categorías se ajuste al tamaño del contenedor principal
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (codear == true)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: category('Codear'),
+                ),
+              if (flojear == true)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: category('Flojear'),
+                ),
+              if (comer == true)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: category('Comer'),
+                ),
+              if (comprar == true)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: category('Comprar'),
+                ),
+            ],
           ),
         ],
       ),
