@@ -62,7 +62,7 @@ class BarraLateral extends StatelessWidget {
             ListTile(
               title: const Text("Nueva Tarea"),
               onTap: () {
-                _mostrarDialogNuevaTarea(context);
+                //_mostrarDialogNuevaTarea(context);
               },
             ),
             ListTile(
