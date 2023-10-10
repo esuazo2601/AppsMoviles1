@@ -11,6 +11,8 @@ class TodO extends StatefulWidget {
 }
 
 class _TodOState extends State<TodO> {
+  List<Task> tasks = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +33,7 @@ class _TodOState extends State<TodO> {
             ),
           ],
         ),
-        drawer: const BarraLateral(),
+        drawer: BarraLateral(),
       ),
     );
   }

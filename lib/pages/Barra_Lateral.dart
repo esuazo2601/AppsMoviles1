@@ -1,7 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto1/pages/about.dart';
 
 class BarraLateral extends StatelessWidget {
-  const BarraLateral({super.key});
+  BarraLateral({super.key});
+  final _fecha_iniciocontroller = TextEditingController();
+  final _fecha_fincontroller = TextEditingController();
+
+  _mostrarDialogNuevaTarea(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Agregar nueva tarea"),
+            content: Column(
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      const Text("Fecha Inicio"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const Text("Fecha Fin"),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _fecha_iniciocontroller,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextFormField(
+                        controller: _fecha_fincontroller,
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +62,7 @@ class BarraLateral extends StatelessWidget {
             ListTile(
               title: const Text("Nueva Tarea"),
               onTap: () {
-                print("Agregar Tarea");
+                _mostrarDialogNuevaTarea(context);
               },
             ),
             ListTile(
@@ -34,7 +74,8 @@ class BarraLateral extends StatelessWidget {
             ListTile(
               title: const Text("Acerca de"),
               onTap: () {
-                print("Pushear acerca de");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const About()));
               },
             )
           ],
