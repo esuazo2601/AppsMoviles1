@@ -96,7 +96,34 @@ class Task extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        print("qlo");
+                        // set up the buttons
+                        Widget cancelButton = TextButton(
+                          child: const Text("Cancelar"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                        Widget continueButton = TextButton(
+                          child: const Text("Confirmar"),
+                          onPressed: () {},
+                        );
+                        // set up the AlertDialog
+                        AlertDialog alert = AlertDialog(
+                          title: const Text("Confirmación"),
+                          content: const Text(
+                              "¿Seguro que quieres borrar esta tarea?"),
+                          actions: [
+                            cancelButton,
+                            continueButton,
+                          ],
+                        );
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
                       },
                       icon: const Icon(Icons.close),
                       color: Colors.white,
