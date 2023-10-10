@@ -9,7 +9,7 @@ class BarraLateral extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Colors.cyan,
+        color: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
