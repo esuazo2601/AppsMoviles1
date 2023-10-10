@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:proyecto1/pages/ToDo.dart';
 import 'package:proyecto1/pages/register.dart';
@@ -19,16 +17,11 @@ class _LoginState extends State<Login> {
 
   Future<bool> userExist() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey(_userController.text)) return false;
-    final String? userDataString = prefs.getString(_userController.text);
-    if (userDataString != null) {
-      final userData = jsonDecode(userDataString);
-      final password = userData['password'];
-      //print(password);
-      //print(_passwordController);
-      if (password == _passwordController.text) {
-        return true;
-      }
+    final user = prefs.getString('username');
+    final password = prefs.getString('password');
+    if (user == null || password == null) return false;
+    if (user == _userController.text && password == _passwordController.text) {
+      return true;
     }
     return false;
   }
@@ -92,6 +85,7 @@ class _LoginState extends State<Login> {
                             .show(context);
                         return;
                       }
+                      Navigator.pop(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

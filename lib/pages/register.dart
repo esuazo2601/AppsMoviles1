@@ -29,7 +29,12 @@ class _RegisterState extends State<Register> {
 
   Future<bool> userExist() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey(_userController.text);
+    final cUserName = prefs.getString('username');
+    if (cUserName == null) {
+      return false;
+    } else {
+      return cUserName == _userController.text;
+    }
   }
 
   Future<void> saveUserData() async {
@@ -39,8 +44,9 @@ class _RegisterState extends State<Register> {
     final nombre = _nombre.text;
 
     // Guarda los datos en SharedPreferences
-    await prefs.setString(
-        username, '{"password": "$password", "nombre": "$nombre"}');
+    await prefs.setString('username', username);
+    await prefs.setString('password', password);
+    await prefs.setString('nombre', nombre);
   }
 
   @override
