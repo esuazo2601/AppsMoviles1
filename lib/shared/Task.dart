@@ -11,6 +11,33 @@ class Task extends StatelessWidget {
   final bool? comer;
   final bool? comprar;
 
+  Container category(String categ) {
+    Color? backgroundColor; // Color de fondo inicialmente nulo
+
+    switch (categ) {
+      case 'Codear':
+        backgroundColor = Colors.orange;
+        break;
+      case 'Flojear':
+        backgroundColor = Colors.green;
+        break;
+      case 'Comer':
+        backgroundColor = Colors.blue;
+        break;
+      case 'Comprar':
+        backgroundColor = Colors.grey;
+        break;
+    }
+    return Container(
+      width: 40, // Ancho del contenedor
+      height: 40, // Alto del contenedor
+      decoration: BoxDecoration(
+        color: backgroundColor, // Color de fondo del Container
+        borderRadius: BorderRadius.circular(50),
+      ),
+    );
+  }
+
   // Constructor que recibe los parámetros nombre, descripción y fechas
   const Task(
       {Key? key,
@@ -26,13 +53,6 @@ class Task extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, bool> categorias = {
-      'Codear': false,
-      'Flojear': false,
-      'Comer': false,
-      'Comprar': false
-    };
-
     final formatoFecha = DateFormat('dd/MM/yyyy'); // Define el formato deseado
     final fechaInicioTexto = formatoFecha.format(fecha_inicio);
     final fechaFinTexto = formatoFecha.format(fecha_fin);
@@ -42,40 +62,74 @@ class Task extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       color: Colors.lightGreen,
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Nombre: $name'),
-              Text('Descripción: $description'),
-            ],
-          ),
-          const SizedBox(
-            width: 10, // Reducir el ancho del SizedBox
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(fechaTexto),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.amber, // Color de fondo del Container
-                  borderRadius: BorderRadius.circular(
-                      50), // Radio de las esquinas (50 es la mitad del ancho/alto)
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    print("qlo");
-                  },
-                  icon: const Icon(Icons.close),
-                  color: Colors.white, // Color del icono
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Nombre: $name'),
+                  Text('Descripción: $description'),
+                ],
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(fechaTexto),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        print("qlo");
+                      },
+                      icon: const Icon(Icons.close),
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               )
             ],
-          )
+          ),
+          Container(
+            //ESTE CONTAINER DEBE IR AL FONDO
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (codear == true)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: category('Codear'),
+                  ),
+                if (flojear == true)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: category('Flojear'),
+                  ),
+                if (comer == true)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: category('Comer'),
+                  ),
+                if (comprar == true)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: category('Comprar'),
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );

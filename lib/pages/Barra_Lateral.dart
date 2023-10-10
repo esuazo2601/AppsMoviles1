@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BarraLateral extends StatelessWidget {
   const BarraLateral({super.key});
@@ -14,7 +12,7 @@ class BarraLateral extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             const UserAccountsDrawerHeader(
-              accountName: const Text("DIDO"),
+              accountName: Text("DIDO"),
               accountEmail: null,
             ),
             ListTile(
