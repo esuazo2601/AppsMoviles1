@@ -11,9 +11,13 @@ class BarraLateral extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text("DIDO"),
+            UserAccountsDrawerHeader(
+              accountName: const Text("DIDO"),
               accountEmail: null,
+              currentAccountPicture: Image.asset(
+                'assets/capi.png',
+              ),
+              currentAccountPictureSize: Size(100, 100),
             ),
             ListTile(
               title: const Text("Nueva Tarea"),
