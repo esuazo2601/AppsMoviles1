@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class Task extends StatelessWidget {
+  final String id;
   final String name;
   final String description;
   final DateTime fecha_inicio;
@@ -10,6 +15,7 @@ class Task extends StatelessWidget {
   final bool? flojear;
   final bool? comer;
   final bool? comprar;
+  final VoidCallback onTaskDeleted;
 
   Container category(String categ) {
     Color? backgroundColor; // Color de fondo inicialmente nulo
@@ -39,17 +45,48 @@ class Task extends StatelessWidget {
   }
 
   // Constructor que recibe los parámetros nombre, descripción y fechas
-  const Task({
-    Key? key,
-    required this.name,
-    required this.description,
-    required this.fecha_inicio,
-    required this.fecha_fin,
-    this.codear,
-    this.flojear,
-    this.comer,
-    this.comprar,
-  }) : super(key: key);
+  // Agregue un identificador, se creara cada vez que se cree una Task
+  Task(
+      {Key? key,
+      String? id,
+      required this.name,
+      required this.description,
+      required this.fecha_inicio,
+      required this.fecha_fin,
+      this.codear,
+      this.flojear,
+      this.comer,
+      this.comprar,
+      required this.onTaskDeleted})
+      : id = id ?? Uuid().v4(),
+        super(key: key);
+
+  Future<void> eliminarTarea(String taskId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final tareasData = prefs.getStringList('tareas') ?? [];
+
+    final nuevasTareasData = tareasData.where((tareaJson) {
+      final tareaData = jsonDecode(tareaJson);
+      final tareaId = tareaData['id'].toString();
+      return tareaId != taskId;
+    }).toList();
+    prefs.setStringList('tareas', nuevasTareasData);
+    onTaskDeleted();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'fecha_inicio': fecha_inicio.toIso8601String(),
+      'fecha_fin': fecha_fin.toIso8601String(),
+      'codear': codear,
+      'flojear': flojear,
+      'comer': comer,
+      'comprar': comprar,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +142,10 @@ class Task extends StatelessWidget {
                         );
                         Widget continueButton = TextButton(
                           child: const Text("Confirmar"),
-                          onPressed: () {},
+                          onPressed: () async {
+                            eliminarTarea(id);
+                            Navigator.pop(context);
+                          },
                         );
                         // set up the AlertDialog
                         AlertDialog alert = AlertDialog(

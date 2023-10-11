@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:proyecto1/shared/Task.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class New_task extends StatefulWidget {
   @override
@@ -7,8 +11,12 @@ class New_task extends StatefulWidget {
 }
 
 class _New_taskState extends State<New_task> {
+  final nombreController = TextEditingController();
+  final descripcionController = TextEditingController();
+
   DateTime fechaInicio = DateTime.now();
   DateTime fechaFin = DateTime.now();
+
   // Colores predeterminados para cada botón
   Color codearButtonColor = Colors.orange;
   Color comprarButtonColor = Colors.grey;
@@ -17,6 +25,43 @@ class _New_taskState extends State<New_task> {
 
   List<bool> isSelected1 = [false, false];
   List<bool> isSelected2 = [false, false];
+
+  Future<Task> agregarTarea() async {
+    final nombre = nombreController.text;
+    final descripcion = descripcionController.text;
+    final fechaInicio = this.fechaInicio;
+    final fechaFin = this.fechaFin;
+    final codear = isSelected1[0];
+    final flojear = isSelected1[1];
+    final comer = isSelected2[0];
+    final comprar = isSelected2[1];
+
+    // Crea una nueva tarea con los valores del formulario
+    Task nuevaTarea = Task(
+      name: nombre,
+      description: descripcion,
+      fecha_inicio: fechaInicio,
+      fecha_fin: fechaFin,
+      codear: codear,
+      flojear: flojear,
+      comer: comer,
+      comprar: comprar,
+      onTaskDeleted: () {},
+    );
+
+    // Convierte la tarea en un objeto JSON
+    Map<String, dynamic> tareaJson = nuevaTarea.toJson();
+
+    // Almacena la tarea JSON en SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final tareasData = prefs.getStringList('tareas') ?? [];
+
+    tareasData.add(jsonEncode(tareaJson));
+
+    prefs.setStringList('tareas', tareasData);
+
+    return nuevaTarea;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +139,13 @@ class _New_taskState extends State<New_task> {
                 SizedBox(height: 8.0),
                 Text("Nombre"),
                 TextField(
+                  controller: nombreController,
                   decoration: InputDecoration(border: OutlineInputBorder()),
                 ),
                 SizedBox(height: 16.0),
                 Text("Descripción"),
                 TextField(
+                  controller: descripcionController,
                   maxLines: 3,
                   decoration: InputDecoration(border: OutlineInputBorder()),
                 ),
@@ -200,7 +247,13 @@ class _New_taskState extends State<New_task> {
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    agregarTarea();
+                    MotionToast.success(
+                            title: const Text("Éxito"),
+                            description: const Text("Tarea agregada con éxito"))
+                        .show(context);
+                  },
                   child: Text("Guardar"),
                 ),
               ],

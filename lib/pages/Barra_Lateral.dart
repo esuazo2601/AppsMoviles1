@@ -1,47 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto1/pages/about.dart';
+import 'package:proyecto1/shared/New_task.dart';
 
 class BarraLateral extends StatelessWidget {
-  BarraLateral({super.key});
-  final _fecha_iniciocontroller = TextEditingController();
-  final _fecha_fincontroller = TextEditingController();
+  final Function(BuildContext) cargarTareas;
 
-  _mostrarDialogNuevaTarea(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Agregar nueva tarea"),
-            content: Column(
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      const Text("Fecha Inicio"),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const Text("Fecha Fin"),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _fecha_iniciocontroller,
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      TextFormField(
-                        controller: _fecha_fincontroller,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        });
-  }
+  const BarraLateral(this.cargarTareas, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +26,9 @@ class BarraLateral extends StatelessWidget {
             ListTile(
               title: const Text("Nueva Tarea"),
               onTap: () {
-                //_mostrarDialogNuevaTarea(context);
+                Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => New_task()))
+                    .then((value) => cargarTareas(context));
               },
             ),
             ListTile(
