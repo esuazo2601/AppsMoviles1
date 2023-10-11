@@ -94,6 +94,7 @@ class BarraLateral extends StatelessWidget {
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const Login()));
                 },
