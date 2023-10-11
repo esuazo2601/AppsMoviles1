@@ -19,7 +19,6 @@ class _TodOState extends State<TodO> {
   Future<void> cargarTareas(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final tareasData = prefs.getStringList('tareas') ?? [];
-
     setState(() {
       tasks = tareasData.map((tareaJson) {
         final tareaData = jsonDecode(tareaJson);

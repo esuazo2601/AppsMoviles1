@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:proyecto1/shared/Task.dart';
@@ -118,7 +117,7 @@ class _New_taskState extends State<New_task> {
                         },
                         child: Text(
                           "${fechaInicio.toLocal()}".split(' ')[0],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )),
                     TextButton(

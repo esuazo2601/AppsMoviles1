@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto1/pages/about.dart';
 import 'package:proyecto1/shared/New_task.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BarraLateral extends StatelessWidget {
   final Function(BuildContext) cargarTareas;
 
   const BarraLateral(this.cargarTareas, {super.key});
+
+  Future<void> borrarTodo() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('tareas');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +41,7 @@ class BarraLateral extends StatelessWidget {
               title: const Text("Borrar Todo"),
               onTap: () {
                 print("Borrando");
+                borrarTodo().then((value) => cargarTareas(context));
               },
             ),
             ListTile(
