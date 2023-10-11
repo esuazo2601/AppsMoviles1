@@ -63,6 +63,14 @@ class _New_taskState extends State<New_task> {
     return nuevaTarea;
   }
 
+  bool isNombre() {
+    return nombreController.text.isNotEmpty;
+  }
+
+  bool isValidDate() {
+    return fechaInicio.isBefore(fechaFin);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,6 +256,22 @@ class _New_taskState extends State<New_task> {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
+                    if (!isNombre()) {
+                      MotionToast.error(
+                              title: const Text("Error"),
+                              description: const Text(
+                                  "Debe agregar un nombre a la tarea"))
+                          .show(context);
+                      return;
+                    }
+                    if (!isValidDate()) {
+                      MotionToast.error(
+                              title: const Text("Error"),
+                              description:
+                                  const Text("Ingrese una fecha valida"))
+                          .show(context);
+                      return;
+                    }
                     agregarTarea();
                     MotionToast.success(
                             title: const Text("Éxito"),
