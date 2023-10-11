@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class New_task extends StatefulWidget {
@@ -8,9 +7,8 @@ class New_task extends StatefulWidget {
 }
 
 class _New_taskState extends State<New_task> {
-  final _fecha_inicio_controller = TextEditingController();
-  final _fecha_termino_controller = TextEditingController();
-
+  DateTime fechaInicio = DateTime.now();
+  DateTime fechaFin = DateTime.now();
   // Colores predeterminados para cada botón
   Color codearButtonColor = Colors.orange;
   Color comprarButtonColor = Colors.grey;
@@ -34,32 +32,63 @@ class _New_taskState extends State<New_task> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text("Fecha inicio"),
+                    Text(
+                      "Fecha inicio",
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text("Fecha termino"),
+                    Text(
+                      "Fecha termino",
                     ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: TextFormField(
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: TextFormField(
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    ))
+                    TextButton(
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: fechaInicio,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          ).then((selectedDate) {
+                            if (selectedDate != null &&
+                                selectedDate != fechaInicio) {
+                              setState(() {
+                                fechaInicio = selectedDate;
+                              });
+                            }
+                          });
+                        },
+                        child: Text(
+                          "${fechaInicio.toLocal()}".split(' ')[0],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: fechaFin,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          ).then((selectedDate) {
+                            if (selectedDate != null &&
+                                selectedDate != fechaFin) {
+                              setState(() {
+                                fechaFin = selectedDate;
+                              });
+                            }
+                          });
+                        },
+                        child: Text(
+                          "${fechaFin.toLocal()}".split(' ')[0],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
                   ],
                 ),
                 SizedBox(height: 8.0),
