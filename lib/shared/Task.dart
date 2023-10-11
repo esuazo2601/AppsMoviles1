@@ -98,7 +98,10 @@ class Task extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
-      color: Colors.lightGreen,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Color.fromARGB(255, 192, 245, 131),
+          border: Border.all(color: Colors.black, width: 2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
