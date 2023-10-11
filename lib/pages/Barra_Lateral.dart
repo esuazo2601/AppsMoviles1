@@ -40,8 +40,38 @@ class BarraLateral extends StatelessWidget {
             title: const Text("Borrar Todo",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             onTap: () {
+              // set up the buttons
+              Widget cancelButton = TextButton(
+                child: const Text("Cancelar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              );
+              Widget continueButton = TextButton(
+                child: const Text("Confirmar"),
+                onPressed: () async {
+                  borrarTodo().then((value) => cargarTareas(context));
+                  Navigator.pop(context);
+                },
+              );
+              // set up the AlertDialog
+              AlertDialog alert = AlertDialog(
+                title: const Text("Confirmación"),
+                content:
+                    const Text("¿Seguro que quieres borrar todas las tareas?"),
+                actions: [
+                  cancelButton,
+                  continueButton,
+                ],
+              );
+              // show the dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return alert;
+                },
+              );
               print("Borrando");
-              borrarTodo().then((value) => cargarTareas(context));
             },
           ),
           ListTile(
