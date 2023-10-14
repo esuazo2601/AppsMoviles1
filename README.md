@@ -1,16 +1,7 @@
-# proyecto1
+# Proyecto 1 De Apps Moviles UDEC
+## Proyecto realizado por:
+* Richard Gonzalez Lara
+* Esteban Suazo Montalba
 
-A new Flutter project.
+Este proyecto consta de una App Móvil diseñada en Flutter que es una ToDo List, implementa funcionalidad de SharedPreferences y diseño de layouts en flutter.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
